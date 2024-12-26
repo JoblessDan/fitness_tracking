@@ -43,18 +43,15 @@ public class WorkoutController {
     @Autowired
     private WorkoutAnalyticsService analyticsService;
 
-    // Create new workout
     @PostMapping
 public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
         try {
-            // Verify the user exists
             if (workout.getUser() != null && workout.getUser().getId() != null) {
                 User user = userRepository.findById(workout.getUser().getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
-                workout.setUser(user); // Set the verified user
+                workout.setUser(user);
             }
 
-            // Set timestamp if not provided
             if (workout.getTimestamp() == null) {
                 workout.setTimestamp(LocalDateTime.now());
             }
@@ -79,7 +76,7 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @param id the unique identifier of the workout to be retrieved
      * @return a response containing the workout if found, or a 404 Not Found response if no workout exists with the specified ID
      */
-    // Get workout by ID
+
     @GetMapping("/{id}")
     public ResponseEntity<Workout> getWorkout(@PathVariable Long id) {
         return workoutRepository.findById(id)
@@ -101,7 +98,6 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @param workoutDetails the {@code Workout} object containing the updated workout details
      * @return a response containing the updated workout if successful, or a 404 Not Found response if no workout exists with the specified ID
      */
-    // Update workout
     @PutMapping("/{id}")
     public ResponseEntity<Workout> updateWorkout(@PathVariable Long id, @RequestBody Workout workoutDetails) {
         return workoutRepository.findById(id)
@@ -135,7 +131,6 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @return a response indicating the deletion was successful (200 OK),
      *         or a 404 Not Found response if no workout exists with the specified ID
      */
-    // Delete workout
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWorkout(@PathVariable Long id) {
         return workoutRepository.findById(id)
@@ -160,7 +155,6 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @param end the end of the date and time range for the query
      * @return a response containing a list of workouts that match the criteria or an error response if the user is not found
      */
-    // Get workouts by date range for user
     @GetMapping("/user/{userId}/range")
     public ResponseEntity<List<Workout>> getWorkoutsByDateRange(
             @PathVariable Long userId,
@@ -183,7 +177,6 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @return a response containing a list of workouts matching the specified type,
      *         or an empty list if no workouts are found
      */
-    // Get workouts by type
     @GetMapping("/type/{workoutType}")
     public ResponseEntity<List<Workout>> getWorkoutsByType(@PathVariable String workoutType) {
         return ResponseEntity.ok(workoutRepository.findByWorkoutType(workoutType));
@@ -205,7 +198,6 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @return a response containing a mapping of workout types to average calories burned,
      *         or an error response if the user is not found
      */
-    // Get average calories by workout type for user
     @GetMapping("/user/{userId}/calories-by-type")
     public ResponseEntity<Map<String, Double>> getAverageCaloriesByType(@PathVariable Long userId) {
         User user = userRepository.findById(userId)
@@ -224,7 +216,6 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @return a response containing the total count of workouts performed by the user,
      *         or an error response if the user is not found
      */
-    // Get workout count for user
     @GetMapping("/user/{userId}/count")
     public ResponseEntity<Long> getWorkoutCount(@PathVariable Long userId) {
         User user = userRepository.findById(userId)
@@ -244,7 +235,6 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @return a response containing a list of workouts belonging to the specified user,
      *         or an error response if the user is not found
      */
-    // Get all workouts for user
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Workout>> getUserWorkouts(@PathVariable Long userId) {
         User user = userRepository.findById(userId)
@@ -264,7 +254,6 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @return a response containing the user's average calories burned as a {@code Double},
      *         or an error response if the user is not found
      */
-    // Get average calories burned by user
     @GetMapping("/user/{userId}/average-calories")
     public ResponseEntity<Double> getAverageCaloriesBurned(@PathVariable Long userId) {
         User user = userRepository.findById(userId)
@@ -287,7 +276,6 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @return a response containing a list of workouts that have occurred since the specified date and time,
      *         or an error response if the user is not found
      */
-    // Get recent workouts for user
     @GetMapping("/user/{userId}/recent")
     public ResponseEntity<List<Workout>> getRecentWorkouts(
             @PathVariable Long userId,
@@ -314,7 +302,6 @@ public ResponseEntity<?> createWorkout(@RequestBody Workout workout) {
      * @return a response containing the analytics data as a map, or
      *         an error response if the user is not found
      */
-    // Analytics endpoints
     @GetMapping("/analytics/{userId}")
     public ResponseEntity<Map<String, Object>> getAnalytics(@PathVariable Long userId) {
         User user = userRepository.findById(userId)

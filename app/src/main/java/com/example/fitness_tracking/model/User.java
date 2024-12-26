@@ -38,7 +38,7 @@ public class User {
     @NotNull
     private String password;
 
-    // Profile information useful for ML
+    // Profile information for ML
     private Integer age;
 
     private BigDecimal height;
@@ -50,8 +50,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private FitnessLevel fitnessLevel;
 
-    // Fitness goals and preferences
-    private String primaryGoal;  // weight loss, muscle gain, endurance, etc.
+    private String primaryGoal;
 
     private Integer weeklyWorkoutTarget;
 
@@ -69,7 +68,6 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    // Parameterized constructor
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;

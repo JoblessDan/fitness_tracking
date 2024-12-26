@@ -18,18 +18,15 @@ import java.util.Map;
  */
 @Repository
 public interface WorkoutRepository extends JpaRepository<Workout, Long> {
-    // Existing methods
     List<Workout> findByUserAndTimestampBetween(User user, LocalDateTime start, LocalDateTime end);
     List<Workout> findByWorkoutType(String workoutType);
 
     @Query("SELECT w.workoutType, AVG(w.caloriesBurned) FROM Workout w WHERE w.user = ?1 GROUP BY w.workoutType")
     Map<String, Double> getAverageCaloriesByWorkoutType(User user);
 
-    // Additional needed methods
     Long countByUser(User user);
     List<Workout> findByUser(User user);
 
-    // Useful additional methods for analytics
     @Query("SELECT AVG(w.caloriesBurned) FROM Workout w WHERE w.user = ?1")
     Double getAverageCaloriesBurnedByUser(User user);
 

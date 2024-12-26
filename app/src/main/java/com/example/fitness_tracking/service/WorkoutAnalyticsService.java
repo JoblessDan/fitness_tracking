@@ -32,7 +32,7 @@ public class WorkoutAnalyticsService {
     public Map<String, Object> generateWorkoutAnalytics(User user) {
         Map<String, Object> analytics = new HashMap<>();
 
-        // Calculate metrics that will be useful for ML
+        // Calculate metricsfor ML
         analytics.put("totalWorkouts", workoutRepository.countByUser(user));
         analytics.put("averageCaloriesBurned", calculateAverageCalories(user));
         analytics.put("workoutTypeDistribution", getWorkoutTypeDistribution(user));
@@ -100,7 +100,7 @@ public class WorkoutAnalyticsService {
         List<Workout> workouts = workoutRepository.findByUser(user);
         Map<String, Object> trends = new HashMap<>();
 
-        // Calculate weekly averages
+      
         Map<Integer, List<Workout>> workoutsByWeek = workouts.stream()
             .collect(Collectors.groupingBy(w ->
                 w.getTimestamp().get(WeekFields.ISO.weekOfWeekBasedYear())));
